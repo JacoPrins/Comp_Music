@@ -1,0 +1,18 @@
+---
+title: "This is the start my Portfolio"
+author: "Jack Prins"
+output: html_document
+date: "Spring 2023"
+---
+# Importing libraries
+```{r}
+library(tidyverse)
+library(spotifyr)
+```
+
+# Getting the first playlist and track audio features
+
+```{r}
+soul_mix <- get_playlist_audio_features("", "37i9dQZF1EQntZpEGgfBif")
+Two_trees <- get_track_audio_features("64jxwV2kklovj7ldPsPsXF")
+```
