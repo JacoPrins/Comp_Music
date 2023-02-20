@@ -8,10 +8,15 @@ output:
     orientation: columns
     vertical_layout: fill
 ---
+```{r}
+library(tidyverse)
+library(spotifyr)
+```
+
+
 Corpus
 ======================================
-This is an introduction to my corpus:\
-Single Song: The House of the rising Sun\
+#### Single Song: The House of the rising Sun
 The house of the rising sun is an old folk song. And like most folksongs the exact origins and author are unknown. The oldest published lyrics were written down by Robert Winslow Gordon, an academic collector of folk songs, in 1925. Throughout the last century many different covers of the song have been made with many different styles. I would like to look at a large collection of different covers and see if all these drastically different versions have things in common or whether I can group them into different types of covers (other than just the genre on which the cover is based).\
 
 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/5A5ePoPwlIuxVmn3cIhiFw?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -28,14 +33,30 @@ Column {data-width=650}
 --------------------------------------------------------------------
 
 ### Main graph
+```{r}
+house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo")
+
+ggplot(house, aes(x= energy, y=valence, color=as.factor(time_signature))) +
+  ggtitle("Analysis: Energy - Loudness - Time signature") +
+  geom_point()+
+  xlim(0,1) + ylim(0,1) +
+  xlab("Energy") + 
+  ylab("Valence") +
+  labs(col="Time signature")
+
+ggplot(house, aes(x=energy)) +
+  ggtitle("Energy distribution over all the songs")+
+  xlab("Energy") + 
+  ylab("Count") +
+  geom_histogram(binwidth = 0.1, fill=rainbow(10)) 
+```
+
 
 Column {data-width=350}
 ---------------------------------------------------------------------
 
 ### Songs
-
-
-### Tiny graph
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3Bjr19sZK5leO42HHU5Uwo?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 Example of the code
 ==============================================
