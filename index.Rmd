@@ -1,19 +1,59 @@
 ---
 title: "This is the start my Portfolio"
-author: "Jack Prins"
-output: html_document
+author: "Jaco Prins"
 date: "Spring 2023"
+output: 
+  flexdashboard::flex_dashboard:
+    storyboard: true
+    orientation: columns
+    vertical_layout: fill
 ---
-# Importing libraries
-```{r}
+Corpus
+======================================
+This is an introduction to my corpus:\
+Single Song: The House of the rising Sun\
+The house of the rising sun is an old folk song. And like most folksongs the exact origins and author are unknown. The oldest published lyrics were written down by Robert Winslow Gordon, an academic collector of folk songs, in 1925. Throughout the last century many different covers of the song have been made with many different styles. I would like to look at a large collection of different covers and see if all these drastically different versions have things in common or whether I can group them into different types of covers (other than just the genre on which the cover is based).\
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/5A5ePoPwlIuxVmn3cIhiFw?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+
+Homework - week 7
+======================================
+Column {data-width=200}{.sidebar}
+------------------------------------------------------------------
+### House of the Rising Sun
+The 
+
+Column {data-width=650}
+--------------------------------------------------------------------
+
+### Main graph
+
+Column {data-width=350}
+---------------------------------------------------------------------
+
+### Songs
+
+
+### Tiny graph
+
+Example of the code
+==============================================
+#### Importing libraries
+```{r, echo=TRUE}
 library(tidyverse)
 library(spotifyr)
 ```
 
-# Getting the first playlist and track audio features
+#### Getting the first playlist and track audio features
 even een textje erbij om te pushen.
 
-```{r}
+```{r, echo=TRUE}
 soul_mix <- get_playlist_audio_features("", "37i9dQZF1EQntZpEGgfBif")
 Two_trees <- get_track_audio_features("64jxwV2kklovj7ldPsPsXF")
+Midnight <- get_track_audio_features("2YtCVNJbORhMnxTtIaj6fk")
+
+# similar_Lianne <- get_related_artists("2RP4pPHTXlQpDnO9LvR7Yt")
+#tracks <- get_album_tracks("5A5ePoPwlIuxVmn3cIhiFw")
+#similar_album <- get_recommendations("7vF5RIx2jHtt9Y0OElOZKK")
 ```
