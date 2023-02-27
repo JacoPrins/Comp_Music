@@ -12,6 +12,7 @@ output:
 library(tidyverse)
 library(spotifyr)
 library(htmltools)
+library(compmus)
 ```
 
 
@@ -62,7 +63,78 @@ Column {data-width=350}
 
 Homework - week 8
 ======================================
-The chromagram of the song: House of the rising song version by River Matthew
+The chromagram of the song: House of the rising song version by River Matthew.\
+All the chromagrams show high levels of A and D. This is not all to surprising as  the song is in the key of D (key=2 given by Spotify), D being the root note and A being the perfect fifth. The mode of the song is minor, which is confirmed best by the Chebsyshev chromogram, which show F and very little of F# (which would be major). 
+
+```{r}
+
+R_Matthew <-
+  get_tidy_audio_analysis("3dF0So7E8GhS6ViCMvhzCb") |>
+  select(segments) |>
+  unnest(segments) |>
+  select(start, duration, pitches)
+```
+Row  {.tabset}
+-----------------------------------------------------------------------
+
+### Euclidean
+```{r}
+R_Matthew |>
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+  compmus_gather_chroma() |> 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) + ggtitle("Euclidean") +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+```
+
+### Chebyshev
+```{r}
+R_Matthew |>
+  mutate(pitches = map(pitches, compmus_normalise, "chebyshev")) |>
+  compmus_gather_chroma() |> 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) + ggtitle("Chebyshev") +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+```
+
+### Manhattan
+```{r}
+R_Matthew |>
+  mutate(pitches = map(pitches, compmus_normalise, "manhattan")) |>
+  compmus_gather_chroma() |> 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) + ggtitle("Manhattan") +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+
+```
+
 
 
 Example of the code
