@@ -1,5 +1,5 @@
 ---
-title: "This is the start my Portfolio"
+title: "The house of the rising sun"
 author: "Jaco Prins"
 date: "Spring 2023"
 output: 
@@ -7,49 +7,35 @@ output:
     storyboard: true
     orientation: columns
     vertical_layout: fill
+    self_contained: false
+    theme: 
+      version: 4
+      bootswatch: minty
+      
 ---
 ```{r}
 library(tidyverse)
 library(spotifyr)
 library(htmltools)
 library(compmus)
+library(plotly)
+# get the audio features
+house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo")
 ```
-
 
 Corpus
 ======================================
-#### Single Song: The House of the rising Sun
-The house of the rising sun is an old folk song. And like most folksongs the exact origins and author are unknown. The oldest published lyrics were written down by Robert Winslow Gordon, an academic collector of folk songs, in 1925. Throughout the last century many different covers of the song have been made with many different styles. I would like to look at a large collection of different covers and see if all these drastically different versions have things in common or whether I can group them into different types of covers (other than just the genre on which the cover is based).\
-
-
-Homework - week 7
-======================================
-Column {data-width=200}{.sidebar}
-------------------------------------------------------------------
-### House of the Rising Sun
-The 
-
 Column {data-width=650}
 --------------------------------------------------------------------
+#### The House of the rising Sun
+The house of the rising sun is an old folk song. And like most folksongs the exact origins and author are unknown. The oldest published lyrics were written down by Robert Winslow Gordon, an academic collector of folk songs, in 1925. Throughout the last century many different covers of the song have been made with many different styles. I would like to look at a large collection of different covers and see if all these drastically different versions have things in common or whether I can group them into different types of covers (other than just the genre on which the cover is based).
 
-### Main graph
-```{r}
-house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo")
 
-ggplot(house, aes(x= energy, y=valence, color=as.factor(time_signature))) +
-  ggtitle("Analysis: Energy - Loudness - Time signature") +
-  geom_point()+
-  xlim(0,1) + ylim(0,1) +
-  xlab("Energy") + 
-  ylab("Valence") +
-  labs(col="Time signature")
-
-ggplot(house, aes(x=energy)) +
-  ggtitle("Energy distribution over all the songs")+
-  xlab("Energy") + 
-  ylab("Count") +
-  geom_histogram(binwidth = 0.1, color="white", fill="aquamarine3") 
-```
+#### Explanation of the song
+The concept of making versions of a song is interesting, as what makes it a cover and what makes it a different song? These covers all lean heavily on the lyrics (although some tracks are fully instrumental) and the motif and chord progression of the song: \
+Am - C - D - F - Am - E - Am - E7\
+I - III - Iv - VI - I - V - I - V7\
+Most of the versions especially the earlier versions are in the key of A minor, so in the explanation this will be used as the key to explain the song other than the intervals.
 
 
 Column {data-width=350}
@@ -57,9 +43,70 @@ Column {data-width=350}
 
 ### Songs
 
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3Bjr19sZK5leO42HHU5Uwo?utm_source=generator&theme=0" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+
+
+Visualisations{.storyboard}
+======================================
+Inputs {.sidebar}
+------------------------------------------------------------------
+#### House of the Rising Sun
+I want to add an explanation of the structure of the song and the chord progression, so show what even through all the changes, makes the covers from the same song.
+
+
+### Energy, loudness and valence
+
 ```{r}
+analysis <- ggplot(house, aes(x= energy, y=valence, color=as.factor(time_signature))) +
+  ggtitle("Analysis: Energy - Loudness - Time signature") +
+  geom_point()+
+  xlim(0,1) + ylim(0,1) +
+  xlab("Energy") + 
+  ylab("Valence") +
+  labs(col="Time signature")
+ggplotly(analysis)
 
 ```
+
+---
+
+This plot shows the correlation between energy, loudness and valence. The main cloud of datapoints seem to have a similar distribution. Only for a small group of data points you can see that the tracks with the most energy and the highest valence are in 4/4 measure.
+
+### Energy distribution overall
+
+```{r}
+energy <- ggplot(house, aes(x=energy)) +
+  ggtitle("Energy distribution over all the songs")+
+  xlab("Energy") + 
+  ylab("Count") +
+  geom_histogram(binwidth = 0.1, color="white", fill="aquamarine3") 
+
+ggplotly(energy)
+```
+
+---
+
+This plot shows how the energy throughout the entire corpus.
+
+### Stats on the corpus
+
+```{r}
+house%>%
+  mutate(mode=as.factor(mode)) %>%
+ggplot(aes(x=key, fill=mode)) +
+  ggtitle("Distribution of key signatures and mode")+
+  xlab("key signature") + 
+  ylab("count") +
+  
+  geom_histogram(binwidth = 1, color="white")
+
+fig.height = 3
+```
+
+---
+
+Most of the versions uphold the Am key of the originals, but there is still some distribution. You can see that as soon as people start playing around with the key they are more likely to change the mode as well.
 
 Homework - week 8
 ======================================
@@ -135,7 +182,68 @@ R_Matthew |>
 
 ```
 
+Timbre and self-similarity matrix{.storyboard}
+==============================================
+### James Last - With Compliments
 
+```{r}
+James_Last <-
+  get_tidy_audio_analysis("6kK3iMxfacrEa5B1s9mXmS") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+          compmus_summarise, pitches,
+          method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+          compmus_summarise, timbre,
+          method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+
+James_Last |>
+  compmus_gather_timbre() |>
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +                              
+  theme_classic()
+
+James_Last |>
+  compmus_self_similarity(timbre, "cosine") |> 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(x = "", y = "")
+
+```
+---
+This track has the highest instrumentalness, 0.954. It uses a guitar to play the melody of the house of a rising sun. Around the 155 second mark this guitar melody gets replaced by a orchestra of violins. Around 200 seconds the violins make way for a sort of choir sinth.
+
+### Oldest version - Clarence Ashley
 
 Example of the code
 ==============================================
