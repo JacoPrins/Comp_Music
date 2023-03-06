@@ -85,7 +85,9 @@ James_Last |>
 
 ---
 
-This track has the highest instrumentalness, 0.954. It uses a guitar to play the melody of the house of a rising sun. Around the 155 second mark this guitar melody gets replaced by a orchestra of violins. Around 200 seconds the violins make way for a sort of choir sinth.
+This track (number 54) has the highest instrumentalness, 0.954. It uses a guitar to play the melody of the house of a rising sun. Around the 155 second mark this guitar melody gets replaced by a orchestra of violins. Around 200 seconds the violins make way for a sort of choir synth.\
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6kK3iMxfacrEa5B1s9mXmS?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 ### Oldest version - Clarence Ashley
 
@@ -145,7 +147,9 @@ Clarence_Ashley |>
 
 ---
 
-This shows the oldest version of the song: Clarence Ashley in 1932.
+This shows the oldest version of the song: Clarence Ashley in 1932. This version is just Clarence singing and playing the tune on guitar accompanied by a very quiet violin.\
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5CeknSovAcbZEoRBXbogun?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 Corpus
 ======================================
@@ -232,7 +236,7 @@ fig.height = 3
 
 Most of the versions uphold the Am key of the originals, but there is still some distribution. You can see that as soon as people start playing around with the key they are more likely to change the mode as well.
 
-Homework - week 8
+Chromagram
 ======================================
 The chromagram of the song: House of the rising song version by River Matthew.\
 All the chromagrams show high levels of A and D. This is not all to surprising as  the song is in the key of D (key=2 given by Spotify), D being the root note and A being the perfect fifth. The mode of the song is minor, which is confirmed best by the Chebsyshev chromogram, which show F and very little of F# (which would be major). 
