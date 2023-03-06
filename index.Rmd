@@ -83,11 +83,13 @@ James_Last |>
 
 ```
 
+
 ---
+
 
 This track (number 54) has the highest instrumentalness, 0.954. It uses a guitar to play the melody of the house of a rising sun. Around the 155 second mark this guitar melody gets replaced by a orchestra of violins. Around 200 seconds the violins make way for a sort of choir synth.\
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6kK3iMxfacrEa5B1s9mXmS?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6kK3iMxfacrEa5B1s9mXmS?utm_source=generator" width="100%" height="25%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 ### Oldest version - Clarence Ashley
 
@@ -145,11 +147,13 @@ Clarence_Ashley |>
   labs(x = "", y = "")
 ```
 
+
 ---
+
 
 This shows the oldest version of the song: Clarence Ashley in 1932. This version is just Clarence singing and playing the tune on guitar accompanied by a very quiet violin.\
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5CeknSovAcbZEoRBXbogun?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5CeknSovAcbZEoRBXbogun?utm_source=generator" width="100%" height="25%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 Corpus
 ======================================
@@ -197,7 +201,9 @@ ggplotly(analysis)
 
 ```
 
+
 ---
+
 
 This plot shows the correlation between energy, loudness and valence. The main cloud of datapoints seem to have a similar distribution. Only for a small group of data points you can see that the tracks with the most energy and the highest valence are in 4/4 measure.
 
@@ -213,7 +219,9 @@ energy <- ggplot(house, aes(x=energy)) +
 ggplotly(energy)
 ```
 
+
 ---
+
 
 This plot shows how the energy throughout the entire corpus.
 
@@ -232,7 +240,9 @@ ggplot(aes(x=key, fill=mode)) +
 fig.height = 3
 ```
 
+
 ---
+
 
 Most of the versions uphold the Am key of the originals, but there is still some distribution. You can see that as soon as people start playing around with the key they are more likely to change the mode as well.
 
@@ -309,7 +319,6 @@ R_Matthew |>
   scale_fill_viridis_c()
 
 ```
-
 
 
 Example of the code
