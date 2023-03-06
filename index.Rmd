@@ -4,7 +4,7 @@ author: "Jaco Prins"
 date: "Spring 2023"
 output: 
   flexdashboard::flex_dashboard:
-    storyboard: true
+    # storyboard: true
     orientation: columns
     vertical_layout: fill
     self_contained: false
@@ -82,7 +82,9 @@ James_Last |>
   labs(x = "", y = "")
 
 ```
+
 ---
+
 This track has the highest instrumentalness, 0.954. It uses a guitar to play the melody of the house of a rising sun. Around the 155 second mark this guitar melody gets replaced by a orchestra of violins. Around 200 seconds the violins make way for a sort of choir sinth.
 
 ### Oldest version - Clarence Ashley
