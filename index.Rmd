@@ -81,6 +81,8 @@ James_Last |>
   theme_classic() +
   labs(x = "", y = "")
 
+
+
 ```
 
 
@@ -89,7 +91,6 @@ James_Last |>
 
 This track (number 54) has the highest instrumentalness, 0.954. It uses a guitar to play the melody of the house of a rising sun. Around the 155 second mark this guitar melody gets replaced by a orchestra of violins. Around 200 seconds the violins make way for a sort of choir synth.\
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6kK3iMxfacrEa5B1s9mXmS?utm_source=generator" width="100%" height="25%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 ### Oldest version - Clarence Ashley
 
@@ -151,9 +152,10 @@ Clarence_Ashley |>
 ---
 
 
-This shows the oldest version of the song: Clarence Ashley in 1932. This version is just Clarence singing and playing the tune on guitar accompanied by a very quiet violin.\
+This shows the oldest version of the song in the corpus by Clarence Ashley in 1932. This version is just Clarence singing and playing the tune on guitar accompanied by a very quiet violin.\
+When looking at the chromagram you can see that the timbre stays rather 
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5CeknSovAcbZEoRBXbogun?utm_source=generator" width="100%" height="25%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
 
 Corpus
 ======================================
