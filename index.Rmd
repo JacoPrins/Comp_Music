@@ -23,6 +23,12 @@ library(plotly)
 house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo")
 ```
 
+Key stuff
+=============================================
+This is the homework for week 10.
+
+
+
 Timbre and self-similarity matrix {.storyboard}
 ==============================================
 
