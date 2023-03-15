@@ -5,6 +5,7 @@ library(flexdashboard)
 library(ggplot2)
 library(plotly)
 library(plyr)  
+library(egg)
 
 circshift <- function(v, n) {
   if (n == 0) v else c(tail(v, n), head(v, -n))
@@ -112,12 +113,13 @@ Somi_plot <-
     norm = "manhattan"     # Try different norms
   ) |>
   ggplot(
-    aes(x = start + duration / 2, width = duration, y = name, fill = d)
+    aes(x = start + duration / 2, width = duration, y = name, fill = d), 
+    title="Verison by Somi"
   ) +
   geom_tile() +
   scale_fill_viridis_c(guide = "none") +
   theme_minimal() +
-  labs(x = "Time (s)", y = "")
+  labs(title="Version by Somi", x = "Time (s)", y = "")
 
 Animals <-
   get_tidy_audio_analysis("7BY005dacJkbO6EPiOh2wb") |>
@@ -142,11 +144,11 @@ Animals_plot <-
     aes(x = start + duration / 2, width = duration, y = name, fill = d)
   ) +
   geom_tile() +
-  ggtitle("Version by the Animals") + 
   scale_fill_viridis_c(guide = "none") +
   theme_minimal() +
-  labs(x = "Time (s)", y = "")
+  labs(title="Version by ANi", x = "Time (s)", y = "")
 
-subplot(ggplotly(Animals_plot), ggplotly(Somi_plot))
+#subplot(ggplotly(Animals_plot), ggplotly(Somi_plot))
+ggarrange(Somi_plot, Animals_plot, ncol=2)
 
 

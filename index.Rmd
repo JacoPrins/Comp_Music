@@ -5,7 +5,7 @@ date: "Spring 2023"
 output: 
   flexdashboard::flex_dashboard:
     # storyboard: true
-    orientation: columns
+    #orientation: columns
     vertical_layout: fill
     self_contained: false
     theme: 
@@ -22,6 +22,7 @@ library(plotly)
 library(flexdashboard)
 library(ggplot2)
 library(plyr) 
+library(egg)
 # get the audio features
 house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo")
 ```
@@ -116,9 +117,16 @@ key_templates <-
   )
 ```
 
+Row
+-------------------------------------
+
 This chord and key analysis is done for the version of the house of the rising sun by Somi. The songs genre as given by spotify is "contemporary vocal jazz". The reason for using this song is the complexity of the songs chord structures. At around 105 seconds a piano makes a very slow chord descent to play a few interesting chords.\
 Compare this to the rock version by the Animals, which shows much more structured chords throughout the song:\
 
+Row
+-------------------------------------
+
+### Somi
 ```{r}
 Somi <-
   get_tidy_audio_analysis("3EkmeZvxvb2j8N84NgFTrQ") |>
@@ -133,7 +141,7 @@ Somi <-
       )
   )
 
-Somi_plot <- 
+Somi_plot <-
   compmus_match_pitch_template(Somi,
     chord_templates,         # Change to chord_templates if descired
     method = "euclidean",  # Try different distance metrics
@@ -143,11 +151,15 @@ Somi_plot <-
     aes(x = start + duration / 2, width = duration, y = name, fill = d)
   ) +
   geom_tile() +
-  ggtitle("Version by Somi") +
   scale_fill_viridis_c(guide = "none") +
   theme_minimal() +
-  labs(x = "Time (s)", y = "")
+  labs(title="Version by Somi", x = "Time (s)", y = "")
 
+ggplotly(Somi_plot)
+```
+
+### Animals
+```{r}
 Animals <-
   get_tidy_audio_analysis("7BY005dacJkbO6EPiOh2wb") |>
   compmus_align(beats, segments) |>
@@ -171,12 +183,11 @@ Animals_plot <-
     aes(x = start + duration / 2, width = duration, y = name, fill = d)
   ) +
   geom_tile() +
-  ggtitle("Version by the Animals") + 
   scale_fill_viridis_c(guide = "none") +
   theme_minimal() +
-  labs(x = "Time (s)", y = "")
+  labs(title="Version by The Animals", x = "Time (s)", y = "")
 
-subplot(ggplotly(Somi_plot), ggplotly(Animals_plot))
+ggplotly(Animals_plot)
 
 ```
 
@@ -328,11 +339,11 @@ The house of the rising sun is an old folk song. And like most folksongs the exa
 #### Explanation of the song
 The concept of making versions of a song is interesting, as what makes it a cover and what makes it a different song? These covers all lean heavily on the lyrics (although some tracks are fully instrumental) and the motif and chord progression of the song: \
 Am - C - D - F - Am - E - Am - E7\
-I - III - Iv - VI - I - V - I - V7\
+I - III - IV - VI - I - V - I - V7\
 Most of the versions especially the earlier versions are in the key of A minor, so in the explanation this will be used as the key to explain the song other than the intervals.
 
 #### Genre distribution
-The playlist shows the most Rock, folk, country and blues. Like the version by the Animals. But there are a few interesting genres like Jazz and Hip Hop, such as the version by Public Enemy of Somi.
+The playlist shows the most Rock, folk, country and blues. Like the version by the Animals. But there are a few interesting genres like Jazz and Hip Hop, such as the version by Public Enemy or Somi.
 
 ```{r picture, echo = F, fig.cap = "Genre distribution", out.width = '100%'}
 knitr::include_graphics("Picture1.png")
