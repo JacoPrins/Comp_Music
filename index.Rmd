@@ -153,12 +153,12 @@ Somi_plot <-
   geom_tile() +
   scale_fill_viridis_c(guide = "none") +
   theme_minimal() +
-  labs(title="Version by Somi", x = "Time (s)", y = "")
+  labs(x = "Time (s)", y = "")
 
 ggplotly(Somi_plot)
 ```
 
-### Animals
+### The Animals
 ```{r}
 Animals <-
   get_tidy_audio_analysis("7BY005dacJkbO6EPiOh2wb") |>
@@ -185,7 +185,7 @@ Animals_plot <-
   geom_tile() +
   scale_fill_viridis_c(guide = "none") +
   theme_minimal() +
-  labs(title="Version by The Animals", x = "Time (s)", y = "")
+  labs(x = "Time (s)", y = "")
 
 ggplotly(Animals_plot)
 
