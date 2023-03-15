@@ -27,7 +27,7 @@ library(egg)
 house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo")
 ```
 
-Key stuff
+Key stuff {data-orientation=rows}
 =============================================
 ```{r}
 circshift <- function(v, n) {
@@ -117,13 +117,13 @@ key_templates <-
   )
 ```
 
-Row
+Row {data-height=200}
 -------------------------------------
 
 This chord and key analysis is done for the version of the house of the rising sun by Somi. The songs genre as given by spotify is "contemporary vocal jazz". The reason for using this song is the complexity of the songs chord structures. At around 105 seconds a piano makes a very slow chord descent to play a few interesting chords.\
 Compare this to the rock version by the Animals, which shows much more structured chords throughout the song:\
 
-Row
+Row {data-height=800}
 -------------------------------------
 
 ### Somi
