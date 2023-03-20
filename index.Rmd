@@ -27,6 +27,45 @@ library(egg)
 house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo")
 ```
 
+Tempograms {data-orientation=rows}
+=============================================
+Row {data-height=200}
+-------------------------------------
+For these tempograms the outliers in tempo (with features given by Spotify) were chosen: The version by the Walls of Jericho has the highest in the corpus, 206.928, and the version by Copilot Music + Sound has the lowest, 52.295.\
+The Walls of Jericho version is catagorised as a melodic metalcore version and thus has a clear tempo throughout the song that holds very steady. The last ten seconds show a bright yellow colomn as the drums stop and a distorted guitar slowly fades so the algorithm suddenly has nothing to track the beat on. The tempo however seems to be around 103, which would be correct as the tempogram is cyclic.\
+The Copilot Music + Sound version shows less of a strong tempo throughout. It is a video game remix and thus does not contain much of a rythm section. It has a synth throughout and the text is sung by a slightly distorted little choir. Nonetheless a few blurry lines can be seen around 180 and 360 BPM, which doesn't seem to match the Spotify tempo feature all too well.
+
+Row {data-height=800}
+-------------------------------------
+### Walls of Jericho
+```{r}
+W_o_J <- get_tidy_audio_analysis("5RHzy5k81c8HA8g6UwLsr2")
+
+W_o_J |>
+  tempogram(window_size = 6, hop_size = 2, cyclic = TRUE) |>
+  ggplot(aes(x = time, y = bpm, fill = power)) +
+  geom_raster() +
+  scale_fill_viridis_c(guide = "none") +
+  labs(x = "Time (s)", y = "Tempo (BPM)") +
+  theme_classic()
+```
+This is a cyclic tempogram.
+
+### Copilot Music + Sound
+```{r}
+C_M_S <- get_tidy_audio_analysis("2ccnnk5lCNvZcADGnFgKPo")
+
+C_M_S |>
+  tempogram(window_size = 4, hop_size = 2, cyclic = FALSE) |>
+  ggplot(aes(x = time, y = bpm, fill = power)) +
+  geom_raster() +
+  scale_fill_viridis_c(guide = "none") +
+  labs(x = "Time (s)", y = "Tempo (BPM)") +
+  theme_classic()
+```
+This is a none cyclic tempogram.
+
+
 Key stuff {data-orientation=rows}
 =============================================
 ```{r}
