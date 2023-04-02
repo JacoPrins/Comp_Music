@@ -47,6 +47,7 @@ library(heatmaply)
 library(tidymodels)
 library(gghighlight)
 library(cowplot)
+
 # get the audio features
 house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo") |>
   mutate(artist.name = map_chr(track.artists, \(x) x |> pluck("name", 1)))
@@ -75,23 +76,59 @@ knitr::include_graphics("figure/download.jpg")
 
 
 ### Explanation of the song
-This is the divide of the corpus into the two genres. The devide was made using Chosic.com and by ear when Spotify the website could not give information on the genre.:\
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6WtspFzvaGk58QtzHrtuRb?utm_source=generator" width="45%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" align="left"></iframe>
+The concept of making covers of a song is interesting, as what makes it a cover and what makes it a different song? These covers all lean heavily one of two things, if not both: lyrics and motif.\ 
+Some tracks are fully instrumental, but most of them will include a version of the lyrics. The Animals version shows a chorus, verse, bridge, verse, chorus structure, with a solo just before the bridge.
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4ak7z48oAQXMmytARE84Jp?utm_source=generator" width="45%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" align="right"></iframe>
+Most tracks also rely on the motif and chord progression of the song: \
+Am  - C   - D   - F   - Am  - C   - E7\
+I   - III - IV  - VI  - I   - III - V7\
+
+```{r i, fig.show = "hold", out.width = "50%", fig.align = "default"}
+knitr::include_graphics("figure/motif.png")
+```
+
+Some change the time signature, but the intervals generaly stay thesame throughout the entire corpus.
 
 ***
+#### Lyrics
+There is a house in New Orleans
+They call the Risin' Sun
+And it's been the ruin of many a poor boy
+And God, I know I'm one\
 
-The concept of making versions of a song is interesting, as what makes it a cover and what makes it a different song? These covers all lean heavily on the lyrics (although some tracks are fully instrumental) and the motif and chord progression of the song: \
-Am  - C   - D   - F   - Am  - E   - Am  - E7\
-I   - III - IV  - VI  - I   - V   - I   - V7\
-Most of the versions especially the earlier versions are in the key of A minor, so in the explanation this will be used as the key to explain the song other than the intervals.
+My mother was a tailor
+She sewed my new blue jeans
+My father was a gamblin' man
+Down in New Orleans\
 
+Now, the only thing a gambler needs
+Is a suitcase and a trunk
+And the only time that he's satisfied
+Is when he's all a-drunk Oh, Mother, tell your children
+Not to do what I have done.
+Spend your lives in sin and misery
+In the house of the risin' sun\
 
+Well, now one foot on the platform
+The other foot on the train
+I'm going back to New Orleans
+To wear that ball and chain\
+
+Well, there is a house in New Orleans
+They call the Risin' Sun
+And it's been the ruin of many a poor boy
+And God, I know I'm one
 
 
 ### Genre distribution
+This is the divide of the corpus into the two genre playlists:\
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6WtspFzvaGk58QtzHrtuRb?utm_source=generator" width="49%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" align="left"></iframe>
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4ak7z48oAQXMmytARE84Jp?utm_source=generator" width="49%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" align="right"></iframe>
+
+The divide was made by hand and resulted in these genre distributions (chosic, 2023):\
 
 ```{r image_grobs, fig.show = "hold", out.width = "50%", fig.align = "default"}
 knitr::include_graphics("figure/Base.png")
@@ -100,9 +137,9 @@ knitr::include_graphics("figure/Bending.png")
 
 ***
 
-The first choice to look at is genre. Do the versions that are closest to the original version get categorized in a similar genre? Genres tend to have similar style and build up, so one would think they would be similar.\
+Generally, songs in the same genre have the same feel. As this corpus is made up of versions of the same song (in the sense of motif and lyrics), the main difference would be the style of playing this song. The songs that sound the most different are the ones played in a copmletely different style to the original. Thus the seperation of the corpus into two playlists was done based on genre (or my perception of it). \
 
-For this the corpus got broken up into two playlists: one base genre that adheres to the most appearing genres: rock, folk, country and blues and one genre bending playlist that includes many different genres, from scat jazz to Hip Hop.
+The two playlists: one base genre playlist that adheres to the most appearing genres: rock, folk, country and blues and one genre bending playlist that includes many different genres, from scat jazz to Hip Hop.
 
 
 2. Visualisations{.storyboard}
@@ -110,7 +147,7 @@ For this the corpus got broken up into two playlists: one base genre that adhere
 Inputs {.sidebar}
 ------------------------------------------------------------------
 #### House of the Rising Sun
-I want to add an explanation of the structure of the song and the chord progression, so show what even through all the changes, makes the covers from the same song.
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3Bjr19sZK5leO42HHU5Uwo?utm_source=generator&theme=0" width="100%" height="450" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 ### Stats on the corpus
 
@@ -135,7 +172,7 @@ key_playlist <-
 
 mode_playlist <- 
   Rising_Sun%>%
-  ggplot(aes(x=key, fill=as.factor(playlist_name))) +
+  ggplot(aes(x=as.factor(mode), fill=as.factor(playlist_name))) +
   ggtitle("Distribution of key signatures and mode")+
   xlab("key signature") +
   ylab("count") +
@@ -151,65 +188,96 @@ The first plot shows that most of the versions uphold the Am key of the original
 The second plot shows that the distribution of the key signatures is fairly equal. The third plot however shows the major mode is used much more frequently in the bending playlist.\
 It is fairly easy to change the key of a piece as one can simply modulate all the notes of a piece. However changing the mode of a piece can influence the vibe of the piece, which might be tied into changing the genre.
 
-### Energy, loudness and valence
+### Tempo
 
 ```{r}
-analysis <- ggplot(Rising_Sun, aes(x= energy, y=valence, color=as.factor(playlist_name), shape=as.factor(time_signature))) +
-  ggtitle("Analysis: Energy - Loudness - Time signature") +
+ggplot(Rising_Sun, aes(x=playlist_name, y=tempo)) +
+  geom_boxplot()+
+  xlab("Playlist") +
+  ylab("Tempo") 
+
+```
+
+***
+
+The average tempo of the Base playlist seems to be around 110 BPM and the that of the Bending playlist slightly higher at 120 BPM. The overall spread of the tempo's seems to be relatively equal. Both lists having only to outliers.
+
+### Liveness, valence and instrumentalness
+```{r}
+analysis <- ggplot(Rising_Sun, aes(x=liveness, y=valence, color=instrumentalness, 
+                                   shape=as.factor(playlist_name), label=artist.name)) +
+  ggtitle("Liveness - Valence - Instrumentalness") +
   geom_point()+
-  xlim(0,1) + ylim(0,1) +
-  xlab("Energy") +
+  xlim(0,1) + 
+  xlab("Liveness") +
   ylab("Valence") +
-  labs(col="Legend", shape="") +
-  geom_text(aes(label=ifelse(artist.name == "The Animals",artist.name, ""), point.padding = 0.5,),hjust=0,vjust=0)
-
-ggplotly(analysis)
-
+  labs(col="Instrumentalness", shape="Playlist") 
+  
+ggplotly(analysis,  tooltip = c("x", "y", "color", "shape", "label"))
 ```
 
----
+***
 
-This plot shows the correlation between energy, loudness and time signatur The main cloud of datapoints seem to have a similar distribution. Only for a small group of data points you can see that the tracks with the most energy and the highest valence are in 4/4 measure.
+The plot shows liveness to be relatively clustered, with just a handful of tracks going above 0.35. Valence on the other hand is relatively spread out, but does not make a clear distinction for either playlist. Instrumentalness seems to be favoring the lower end with the base genres, but is not very clear.
 
-### Based on Forest
+### Focus on Instrumentalness
 
 ```{r}
-analysis <- ggplot(Rising_Sun, aes(x= instrumentalness, y=energy, color=as.factor(playlist_name))) +
-  ggtitle("Analysis: Speechiness - Energy - Instrumentalness") +
-  geom_point()+
-  xlim(0,1) + ylim(0,1) +
+energy <- ggplot(Rising_Sun, aes(x=instrumentalness, fill=playlist_name)) +
+  ggtitle("Instrumentalness distribution over all the songs")+
   xlab("Instrumentalness") +
-  ylab("Energy") +
-  labs(col="Playlist") 
-  # gghighlight(artist.name == "The Animals", label_key = artist.name)
-
-ggplotly(analysis)
-
-```
-
-### Energy distribution overall
-
-```{r}
-energy <- ggplot(house, aes(x=energy)) +
-  ggtitle("Energy distribution over all the songs")+
-  xlab("Energy") +
   ylab("Count") +
-  geom_histogram(binwidth = 0.1, color="white", fill="aquamarine3") +
-  gghighlight(artist.name == "The Animals", label_key = artist.name)
+  geom_histogram(binwidth = 0.1, position="dodge") 
 
 ggplotly(energy)
 ```
 
 ---
 
-This plot shows how the energy throughout the entire corpus.
+This plot shows how the instrumentalness level throughout the entire corpus. The base genres dominate the lower end of the scale while the bending genres have a slight upperhand on the high end. 
+
+### Energy, loudness and speechiness
+
+```{r}
+analysis <- ggplot(Rising_Sun, aes(x= energy, y=loudness, color=speechiness, 
+                                   shape=as.factor(playlist_name), label=artist.name)) +
+  ggtitle("Analysis: Energy - Loudness - Speechiness") +
+  geom_point()+
+  xlim(0,1) + 
+  xlab("Energy") +
+  ylab("Loudness") +
+  labs(col="Speechiness", shape="Playlist") 
+  
+ggplotly(analysis,  tooltip = c("x", "y", "color", "shape", "label"))
+
+```
+
+---
+
+The plot shows that the entire corpus does not contain any songs with high levels of speechiness. The highest would be the versions of Gregory Isaacs and Public enemy, reggae and HipHop respectively. But even they don't go above 0.3 in a 0-1 scale.\
+The entire corpus has a wide distribution on energy but the loudest and ones with the most energy seem to all be from the bending playlist. Most of them related to metal, thus not surprising results.
+
+
+### Focus on Energy
+
+```{r}
+energy <- ggplot(Rising_Sun, aes(x=energy, fill=playlist_name)) +
+  ggtitle("Energy distribution over all the songs")+
+  xlab("Energy") +
+  ylab("Count") +
+  geom_histogram(binwidth = 0.1, position="dodge") 
+
+ggplotly(energy)
+```
+
+---
+
+This plot shows how the energy throughout the entire corpus. It shows the base genres have a lower energy, while the bending genres are more evenly distrubuted in the energy.
+
 
 
 3. Track level {.storyboard}
 ================================================
-### Introduction
-In this chapter we’ll look into the more individual track level to look deeper into the differences of the covers. To the 
-
 ### Clustering
 
 ```{r}
@@ -237,160 +305,31 @@ data_for_clustering |>
 ```
 
 ***
-To get a first understanding of what songs are similar the entire corpus was clustered. For the clustering a hierarchical clustering algorithm was used. The different splits are showcased in the dendrogram. The dendrogram shows a few clusters that are parted into the two genre playlists fairly well. There are two almost perfect Base genre clusters.\
-The Animals version is clustered into the middle into the very clean base genre cluster. The songs that it is percieved to most similar to are: Geordie Shore, Lo Mejor De Las Baladas Rock, Eric Burdon ande The Hippie Band. The songs that it is percieved to be most different from are: Sonja Malley and Wuauquikana.
+To get a first understanding of what songs are similar the entire corpus was clustered. For the clustering a hierarchical clustering algorithm was used. The different splits are showcased in the dendrogram. The dendrogram shows a few clusters that are parted into the two genre playlists fairly well, but it is clear that this clustering doesn't provide a good distinction between the base and bending playlists.\
+The Animals version is clustered into the middle into the very clean base genre cluster. The songs that it is percieved to be most similar to are: Eric Burdon and The Hippie Band. The songs that it is percieved to be very different from are: Sonja Malley, Somi and Wuauquikana.\
+These are the songs we will take into the lower level track analysis.
 
 
 
 ### Sectioning
-```{r,fig.width = 15, fig.height= 9}
-Sonja <- readRDS(file="data/Sonja.Rda")
+```{r, fig.width = 15, fig.height= 9}
+Sonja_plot <- readRDS(file="data/Sonja.Rda")
 
-Sonja_plot <- 
-bind_rows(
-  Sonja |> 
-    compmus_self_similarity(pitches, "aitchison") |> 
-    mutate(d = d / max(d), type = "Chroma"),
-  Sonja |> 
-    compmus_self_similarity(timbre, "euclidean") |> 
-    mutate(d = d / max(d), type = "Timbre")
-) |>
-  mutate() |>
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "", title = "Sonya O'Malley")+
-  theme(plot.margin = unit(c(0,0,0,0), "cm"))
+Animals_plot <- readRDS(file="data/The_Animals.Rda")
 
-Animals <- readRDS(file="data/The_Animals.Rda")
+Wuauquikuna_plot <- readRDS(file="data/Wuauquikuna.Rda")
 
-animals_plot <-
-  bind_rows(
-  Animals |> 
-    compmus_self_similarity(pitches, "aitchison") |> 
-    mutate(d = d / max(d), type = "Chroma"),
-  Animals |>
-    compmus_self_similarity(timbre, "euclidean") |>
-    mutate(d = d / max(d), type = "Timbre")
-) |>
-  mutate() |>
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "", title = "The Animals")+
-  theme(plot.margin = unit(c(0,0,0,0), "cm"))
+Burdon_plot <- readRDS(file="data/Burdon.Rda")
 
-Wuauquikuna <- readRDS(file="data/Wuauquikuna.Rda")
+Hippie_plot <- readRDS(file="data/Hippie.Rda")
 
-Wuauquikuna_plot <-
-  bind_rows(
-  Wuauquikuna |> 
-    compmus_self_similarity(pitches, "aitchison") |> 
-    mutate(d = d / max(d), type = "Chroma"),
-  Wuauquikuna |>
-    compmus_self_similarity(timbre, "euclidean") |>
-    mutate(d = d / max(d), type = "Timbre")
-) |>
-  mutate() |>
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "", title = "Wuauquikuna")+
-  theme(plot.margin = unit(c(0,0,0,0), "cm"))
+Somi_plot <- readRDS(file="data/Somi.rda")
 
-Burdon <- readRDS(file="data/Burdon.Rda")
-
-Burdon_plot <-
-  bind_rows(
-  Burdon |> 
-    compmus_self_similarity(pitches, "aitchison") |> 
-    mutate(d = d / max(d), type = "Chroma"),
-  Burdon |>
-    compmus_self_similarity(timbre, "euclidean") |>
-    mutate(d = d / max(d), type = "Timbre")
-) |>
-  mutate() |>
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "", title = "Burdon")+
-  theme(plot.margin = unit(c(0,0,0,0), "cm"))
-
-Hippie <- readRDS(file="data/Hippie.Rda")
+# Somi_plot <- Somi_plot |> ggtitle("Somi")
+# saveRDS(Somi_plot, file="data/Somi.rda")
 
 
-Hippie_plot <-
-  bind_rows(
-  Hippie |> 
-    compmus_self_similarity(pitches, "aitchison") |> 
-    mutate(d = d / max(d), type = "Chroma"),
-  Hippie |>
-    compmus_self_similarity(timbre, "euclidean") |>
-    mutate(d = d / max(d), type = "Timbre")
-) |>
-  mutate() |>
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "", title = "Hippier")+
-  theme(plot.margin = unit(c(0,0,0,0), "cm"))
-
-plot_grid(animals_plot, Sonja_plot, Wuauquikuna_plot, Hippie_plot, Burdon_plot, ncol = 3)
+plot_grid(Animals_plot, Hippie_plot, Burdon_plot, Sonja_plot, Wuauquikuna_plot, Somi_plot, ncol = 3)
 ```
 
 ***
@@ -400,14 +339,40 @@ The Animals version shows a slight chorus-verse structures with a very different
 The Sonja and Wuauquikuna version also show this melody pattern in the chromagram which suggests they use the same melody (which is true listening to the songs), but show a different timbre seqtioning. Both these versions are instrumental and use piano and panflute respectively.
 
 
-<!-- ### Chordogram -->
-<!-- ```{r} -->
+### Chordogram
 
-<!-- ``` -->
+```{r, fig.width = 15, fig.height= 9}
+animals_plot <- readRDS(file="data/Animal_chord.rda")+
+  ggtitle("The Animals")
+
+Sonja_plot <- readRDS(file="data/Sonya_chord.rda")+
+  ggtitle("Sonya O'Malley")
+
+Wuauquikuna_plot <- readRDS(file="data/Wuauquikuna_chord.rda")+
+  ggtitle("Wuauquikuna")
+
+Hippie_plot <- readRDS(file="data/Hippie_chord.rda") +
+  ggtitle("The Hippie Band")
+
+Burdon_plot <- readRDS(file="data/Burdon_chord.rda")+
+  ggtitle("Eric Burdon")
+
+Somi_plot <- readRDS(file="data/Somi_chord.rda") + 
+  ggtitle("Somi")
+
+
+plot_grid(animals_plot, Hippie_plot, Burdon_plot, Sonja_plot, Wuauquikuna_plot, Somi_plot, ncol = 3)
+```
+
+***
+
+All these covers are clearly in the key of A minor. The first five show almost no change throughout the song. The blue on the level of A major is fainter than that of A minor, which suggests the program recognizes the tonic and dominant of that key that appear in the piece.\
+The last chordogram shows a very interesting picture. The piece by Somi is Scat jazz and during the piece the instruments, including the vocals, do not stay perfectly within the boundaries of the key. Added to that at around 160 seconds a trumpet starts playing a solo that glides through the keys. The very low level of yellow shows the program is not able to correctly identify the key as G major.
 
 
 ### Tempogram
-```{r,fig.width = 15, fig.height= 9}
+All the tempograms are non-cyclic.
+```{r, fig.width = 15, fig.height= 9}
 animals_plot <- readRDS(file="data/animals_plot_temp.rda")+
   ggtitle("The Animals")
 
@@ -423,10 +388,9 @@ Hippie_plot <- readRDS(file="data/Hippie_plot_temp.rda") +
 Burdon_plot <- readRDS(file="data/Burdon_plot_temp.rda")+
   ggtitle("Eric Burdon")
 
-
-plot_grid(animals_plot, Sonja_plot, Wuauquikuna_plot, Hippie_plot, Burdon_plot, ncol = 3)
+plot_grid(animals_plot, Hippie_plot, Burdon_plot, Sonja_plot, Wuauquikuna_plot, ncol = 3)
 ```
-<!-- All the tempograms are non-cyclic. -->
+
 
 ***
 
@@ -436,13 +400,20 @@ The versions of Sonya and Wuauquikuna show a slight different pattern. Sonya's p
 
 4. Forest and Conclusion {.storyboard}
 =========================================
-### Introduction
+### Random Forest algorithm
 Now we have found the features that show the difference between the genres and we will train an algorithm to see if these features can correctly make a distinction between the different genres of the covers.
 
-### Forest
-This is how we trained it:
+#### Algorithm
+A random forest algorithm is an algorithm that consists of many different decision trees. A decision tree splits on different features to give a prediction on the catagory the input belongs to. A random forest will run many decision trees and takes an average on their outcome to produce a prediction as well.\
+This random forest was trained on the different keys, the different timbre features and the features energy, loudness, speechiness and instrumentalness as these features showed the most promise in making a distinction between the base genres and the bending genres.
 
-***
+#### Feature Importance
+This figure shows the relative importance of al the features included:\
+
+```{r im, fig.show = "hold", out.width = "70%", fig.align = "default"}
+knitr::include_graphics("figure/Importance.png")
+```
+
 
 #### The results
 The Forest never got very good as you can see in the numbers:
@@ -452,6 +423,19 @@ The Forest never got very good as you can see in the numbers:
 | Base       |     0.628 |   0.731|
 | Bending    |     0.571 |   0.453|
 
+The results for the bending genre playlist is as if it is merely guessing to which of the playlists the track belongs. For the base playlist the results are slightly better however the base playlist is also slightly larger than the bending one, which might have part in the difference.\
+The corpus is a very small dataset, so it is not surprising the algorithm does not produce the greatest results.
+
 
 ### Conclusion
-In all this portfolio shows that eventhough the covers in the bending genre playlist sound much different to The Animals' version, it is hard to correctly predict them using MIR. 
+The covers in the Base playlist would sound fairly similar to the original whereas the bending playlist features versions that would take some people a bit of time to recognize as a cover of the house of the rising sun. This portfolio shows that even though the covers in the bending genre playlist sound much different to The Animals' version, it is hard to correctly predict them using MIR.\
+After a look into which features showed any distinct difference between the two playlists and delving deeper into a lower level track analysis, the random forest that was trained on the features that were found to be most promising did not gather great results. Only slightly better than just guessing which playlist.\
+This shows that having songs feel different to people is a much more difficult classifying task for a computer. Eventhough the random forest algorithm did not perform optimally, the analysis both on corpus and track level did indeed reveal differences between the playlists.\
+The Bending genre playlist has a few tracks that are clear outliers in both energy and loudness, and the tempo's are slighlty higher in the bending playlist. The Animals version of the house of the rising sun shows a relatively straight forward buildup of chorus and verses and stays put in its tempo and key. The versions from the base playlist showed a similar pattern, while those from the bending playlist showed some differences in the different grams.
+
+#### References
+* Baker, D. J. (@davidjohnbaker1) & Burgoyne, J. A. (@jaburgoyne). (2023). compmus2023. GitHub repository. https://github.com/jaburgoyne/compmus2023
+
+* Chosic. (2023, March 27). Spotify Playlist Analyzer - Chosic. https://www.chosic.com/spotify-playlist-analyzer/
+
+* Müller, M. (2015). Fundamentals of music processing: Audio, analysis, algorithms, applications. Springer.
