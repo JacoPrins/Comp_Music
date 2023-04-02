@@ -47,6 +47,7 @@ library(heatmaply)
 library(tidymodels)
 library(gghighlight)
 library(cowplot)
+
 # get the audio features
 house <- get_playlist_audio_features("", "3Bjr19sZK5leO42HHU5Uwo") |>
   mutate(artist.name = map_chr(track.artists, \(x) x |> pluck("name", 1)))
@@ -75,7 +76,7 @@ knitr::include_graphics("figure/download.jpg")
 
 
 ### Explanation of the song
-This is the divide of the corpus into the two genres. The devide was made using Chosic.com and by ear when Spotify the website could not give information on the genre.:\
+This is the divide of the corpus into the two genre playlists. The divide was based on the :\
 
 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6WtspFzvaGk58QtzHrtuRb?utm_source=generator" width="45%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" align="left"></iframe>
 
@@ -110,7 +111,7 @@ For this the corpus got broken up into two playlists: one base genre that adhere
 Inputs {.sidebar}
 ------------------------------------------------------------------
 #### House of the Rising Sun
-I want to add an explanation of the structure of the song and the chord progression, so show what even through all the changes, makes the covers from the same song.
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3Bjr19sZK5leO42HHU5Uwo?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 ### Stats on the corpus
 
@@ -151,7 +152,35 @@ The first plot shows that most of the versions uphold the Am key of the original
 The second plot shows that the distribution of the key signatures is fairly equal. The third plot however shows the major mode is used much more frequently in the bending playlist.\
 It is fairly easy to change the key of a piece as one can simply modulate all the notes of a piece. However changing the mode of a piece can influence the vibe of the piece, which might be tied into changing the genre.
 
-### Energy, loudness and valence
+### Stats but without plot_grid
+```{r}
+Rising_Sun%>%
+  ggplot(aes(x=key, fill=as.factor(mode))) +
+  ggtitle("Distribution of key signatures and mode")+
+  xlab("key signature") +
+  ylab("count") +
+  geom_histogram(binwidth = 1)+
+  labs(fill="Mode: 0 = minor")
+
+Rising_Sun%>%
+  ggplot(aes(x=key, fill=as.factor(playlist_name))) +
+  ggtitle("Distribution of key signatures and mode")+
+  xlab("key signature") +
+  ylab("count") +
+  geom_bar()+
+  labs(fill="Playlist")
+
+Rising_Sun%>%
+  ggplot(aes(x=key, fill=as.factor(playlist_name))) +
+  ggtitle("Distribution of key signatures and mode")+
+  xlab("key signature") +
+  ylab("count") +
+  geom_bar() +
+  labs(fill="Playlist")
+```
+
+
+### Energy, loudness and time signature
 
 ```{r}
 analysis <- ggplot(Rising_Sun, aes(x= energy, y=valence, color=as.factor(playlist_name), shape=as.factor(time_signature))) +
