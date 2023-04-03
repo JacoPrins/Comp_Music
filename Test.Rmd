@@ -3,6 +3,7 @@ title: "TEST"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
+    self_contained: false
 ---
 
 ```{r setup, include=FALSE}
@@ -14,24 +15,10 @@ library(flexdashboard)
 library(htmltools)
 ```
 
-Page
+Page {.storyboard}
 ====================================
+### Intro
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6WtspFzvaGk58QtzHrtuRb?utm_source=generator" width="45%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" align="left"></iframe>
 
-Row
------------------------------
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4ak7z48oAQXMmytARE84Jp?utm_source=generator" width="45%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" align="right"></iframe>
 
-### HTML and JavaScript
-
-<button id="btn">Click me</button>
-
-```{js, echo=FALSE}
-$("#btn").on("click", function() {
-  alert("You clicked the button!")
-})
-```
-
-### HTML using 'htmltools'
-
-```{r, echo=FALSE}
-tags$button("Another button")
-```

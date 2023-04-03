@@ -76,9 +76,9 @@ knitr::include_graphics("figure/download.jpg")
 
 
 ### Explanation of the song
-
 The concept of making covers of a song is interesting, as what makes it a cover and what makes it a different song? These covers all lean heavily one of two things, if not both: lyrics and motif.\ 
-Some tracks are fully instrumental, but most of them will include a version of the lyrics. The Animals version shows a chorus, verse, bridge, verse, chorus structure, with a solo just before the bridge.
+
+Some tracks are fully instrumental, but most of them will include a version of the lyrics. The Animals version shows a chorus, verse, bridge, verse, chorus structure, with a solo just before the bridge.\
 
 Most tracks also rely on the motif and chord progression of the song: \
 Am  - C   - D   - F   - Am  - C   - E7\
